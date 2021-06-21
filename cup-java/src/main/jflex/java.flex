@@ -25,7 +25,7 @@ import java_cup.runtime.*;
 
 %public
 %class Scanner
-%extend sym
+%extends sym
 
 %unicode
 
@@ -170,10 +170,8 @@ SingleCharacter = [^\r\n\'\\]
   "name"                        { return symbol(NAME); }
   "age"                        { return symbol(AGE); }
   "language"                        { return symbol(LANGUAGE); }
-  "city"                          { return symbol(END); }
-  "region"                        { return symbol(CITY); }
-  "cmn"                            { return symbol(CMN); }
-  "whs"                            { return symbol(WHS); }
+  "city"                          { return symbol(CITY); }
+  "PROVINCE"                        { return symbol(PROVINCE); }
   "begin"                          { return symbol(BEGIN); }
   "end"                        { return symbol(END); }
   "hello"                            { return symbol(HELLO); }
@@ -267,7 +265,7 @@ SingleCharacter = [^\r\n\'\\]
   {DoubleLiteral}[dD]            { return symbol(FLOATING_POINT_LITERAL, new Double(yytext().substring(0,yylength()-1))); }
   
   /* comments */
-  {Comment}                      { /* ignore */ }
+  {Comment}                      {return symbol(CMN); }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
