@@ -60,13 +60,16 @@ parser code  {:
     throw new RuntimeException("Fatal Syntax Error");
   }
 :};
+
+
+
 //myterminals
 terminal forr;
 terminal NAME;
 terminal AGE;
 terminal LANGUAGE;
 terminal CITY;
-terminal REGION;
+terminal PROVINCE;
 terminal CMN;
 terminal WHS;
 terminal BEGIN;
@@ -76,6 +79,10 @@ terminal NICE;
 terminal UNTIL;
 terminal WHERE;
 //
+
+
+
+
 terminal BOOLEAN; // primitive_type
 terminal BYTE, SHORT, INT, LONG, CHAR; // integral_type
 terminal FLOAT, DOUBLE; // floating_point_type
@@ -141,10 +148,14 @@ terminal CONST, GOTO;
 //mynonterminals
 
 non terminal newstatements,fivekeywords;
-non terminal forr_statment;
+non terminal CMN_statement;
 non terminal name_statement;
-non terminal age_statment,city_statement,language_statement,region_statment;
+non terminal age_statment,city_statement,language_statement,PROVINCE_statment;
 non terminal goal;
+
+
+
+
 // 19.3) Lexical Structure
 non terminal literal;
 // 19.4) Types, Values, and Variables
@@ -542,8 +553,10 @@ variable_initializers ::=
 
 // 19.11) Blocks and Statements
 //my block
+/*
 block ::=	BEGIN compilation_unit END compilation_unit
-	;
+	;*/
+	block ::=	LBRACE block_statements_opt RBRACE;
 block_statements_opt ::=
 	|	block_statements
 	;
@@ -581,9 +594,12 @@ name_statement
 |age_statment
 |city_statement
 |language_statement
-|region_statment
+|PROVINCE_statment
+|CMN_statement
 ;
-
+CMN_statement ::=
+		CMN {: System.out.println("Comment recieved"); :}
+	;
 name_statement ::=
 		NAME {: System.out.println("NAME: merhrshad shafaghi - fateme padkan"); :}
 	;
@@ -596,8 +612,8 @@ name_statement ::=
 	language_statement ::=
 		LANGUAGE {: System.out.println("LANGUAGE: persian"); :}
 	;
-	region_statment ::=
-		REGION {: System.out.println("REGION: Asia-Iran"); :}
+	PROVINCE_statment ::=
+		PROVINCE {: System.out.println("PROVINCE :Guilan"); :}
 
 	;
 
@@ -688,8 +704,12 @@ do_statement ::=
 		DO statement WHILE LPAREN expression RPAREN SEMICOLON
 	;
 	//my for
-for_statement ::=
+/*for_statement ::=
 	FOR for_init UNTIL INTEGER_LITERAL WHERE block
+	;*/
+	for_statement ::=
+		FOR LPAREN for_init_opt SEMICOLON expression_opt SEMICOLON
+			for_update_opt RPAREN statement
 	;
 for_statement_no_short_if ::=
 		FOR LPAREN for_init_opt SEMICOLON expression_opt SEMICOLON
